@@ -27,3 +27,4 @@ Route::delete('/categories/{id}/delete-permanent','CategoryController@deletePerm
 
 Route::resource("users", "UserController");
 Route::resource('categories','CategoryController');
+Route::resource('books', 'BookController');
