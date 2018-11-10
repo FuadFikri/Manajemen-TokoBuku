@@ -20,4 +20,10 @@ Route::match(["GET", "POST"], "/register", function(){
 return redirect("/login");
 })->name("register");
 
+
+Route::get('/categories/trash', 'CategoryController@trash')->name('categories.trash');
+Route::get('/categories/{id}/restore', 'CategoryController@restore')->name('categories.restore');
+Route::delete('/categories/{id}/delete-permanent','CategoryController@deletePermanent')->name('categories.delete-permanent');
+
 Route::resource("users", "UserController");
+Route::resource('categories','CategoryController');
