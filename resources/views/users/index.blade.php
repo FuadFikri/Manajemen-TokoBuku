@@ -53,7 +53,7 @@
                 @if($user->status == "ACTIVE")
                     <span class="badge badge-success">
                     {{$user->status}}
-                     </span>
+                    </span>
                 @else
                     <span class="badge badge-danger">
                         {{$user->status}}

@@ -152,4 +152,11 @@ return view('categories.edit', ['category' => $category_to_edit]);
         }
     }
 
+    public function ajaxSearch(Request $request)
+    {
+        $keyword = $request->get('q');
+        $categories = Category::where('name','LIKE',"%$keyword")->get();
+        return $categories;
+    }
+
 }
