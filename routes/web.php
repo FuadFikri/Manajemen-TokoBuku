@@ -32,5 +32,6 @@ Route::delete('/books/{id}/delete-permanent','BookController@deletePermanent')->
 Route::resource("users", "UserController");
 Route::resource('categories','CategoryController');
 Route::resource('books', 'BookController');
+Route::resource('orders', 'OrderController');
 
 Route::get('/ajax/categories/search','CategoryController@ajaxSearch');
