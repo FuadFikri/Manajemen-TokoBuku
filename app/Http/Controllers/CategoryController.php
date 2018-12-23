@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -41,6 +42,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        \Validator::make($request->all(), [
+            "name" => "required|min:3|max:20",
+            "image" => "required"
+        ])->validate();
+
         $name = $request->get('name');
         $new_category = new Category;
         $new_category->name = $name;
@@ -77,7 +83,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category_to_edit = \App\Category::findOrFail($id);
-return view('categories.edit', ['category' => $category_to_edit]);
+        return view('categories.edit', ['category' => $category_to_edit]);
     }
 
     /**
@@ -89,8 +95,18 @@ return view('categories.edit', ['category' => $category_to_edit]);
      */
     public function update(Request $request, $id)
     {
+        $category = \App\Category::findOrFail($id);
+        \Validator::make($request->all(), [
+            "name" => "required|min:3|max:20",
+            "image" => "",
+            "slug" => [
+                "required",
+                Rule::unique("categories")->ignore($category->slug, "slug")
+            ]
+        ])->validate();
         $name = $request->get('name');
         $slug = $request->get('slug');
+
         $category = \App\Category::findOrFail($id);
         $category->name = $name;
         $category->slug = $slug;
@@ -102,7 +118,8 @@ return view('categories.edit', ['category' => $category_to_edit]);
             $category->image = $new_image;
         }
         $category->updated_by = \Auth::user()->id;
-        $category->slug = str_slug($name);
+        // $category->slug = str_slug($name);
+        // dd($category);
         $category->save();
         return redirect()->route('categories.index', ['id' => $id])->with('status','Category successfully created');
 
