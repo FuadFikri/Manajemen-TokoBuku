@@ -17,7 +17,7 @@ return view('auth.login');
 
 Auth::routes();
 Route::match(["GET", "POST"], "/register", function(){
-return redirect("/login");
+    return redirect("/login");
 })->name("register");
 
 
